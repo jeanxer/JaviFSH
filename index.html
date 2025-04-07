@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JaviFSH</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <button id="playAudio">Click</button>
+
+    <audio id="backgroundMusic" loop>
+        <source src="cancion.mp3" type="audio/mp3">
+        Tu navegador no soporta el elemento de audio.
+    </audio>
+
+    <div class="container">
+        <h1 class="main-title">JaviFSH</h1>
+        <div class="profile-container">
+            <a href="https://thisisnotawebsitedotcom.com" target="_blank">
+                <img src="perfil.jpg" alt="Imagen de perfil" class="profile-img">
+            </a>
+        </div>
+
+        <div class="buttons-container">
+          <a href="https://discord.gg/dZJv9BQJ6a" class="button" target="_blank">Discord</a>
+          <a href="#" class="button" target="_blank">Mantenimiento</a>          
+        </div>
+
+        <footer>
+            <p>Lo mejor para mis suscriptores.</p>
+        </footer>
+    </div>
+
+    <script>
+      document.getElementById('playAudio').addEventListener('click', function () {
+          const audio = document.getElementById('backgroundMusic');
+          audio.volume = 0.6; // Ajusta el volumen aquí (20%)
+          audio.play();
+          this.style.opacity = '0';
+          setTimeout(() => {
+              this.style.display = 'none';
+          }, 300);
+      });
+    </script> 
+  
+</body>
+</html>
