@@ -24,8 +24,8 @@
         </div>
 
         <div class="buttons-container">
-          <a href="https://discord.gg/dZJv9BQJ6a" class="button" target="_blank">Discord</a>
-          <a href="#" class="button" target="_blank">Mantenimiento</a>          
+            <a href="https://discord.gg/dZJv9BQJ6a" class="button" target="_blank">Discord</a>
+            <a href="#" class="button" onclick="showCharacterDialogue()">. . .</a>
         </div>
 
         <footer>
@@ -33,17 +33,82 @@
         </footer>
     </div>
 
+    
+    <div id="character-dialogue">
+        <img id="character-img" src="personaje.png" alt="Personaje">
+        <div id="dialogue-box"></div>
+    </div>
+
     <script>
-      document.getElementById('playAudio').addEventListener('click', function () {
-          const audio = document.getElementById('backgroundMusic');
-          audio.volume = 0.6; // Ajusta el volumen aquí (20%)
-          audio.play();
-          this.style.opacity = '0';
-          setTimeout(() => {
-              this.style.display = 'none';
-          }, 300);
-      });
-    </script> 
-  
+        document.getElementById('playAudio').addEventListener('click', function () {
+            const audio = document.getElementById('backgroundMusic');
+            audio.volume = 0.6;
+            audio.play();
+            this.style.opacity = '0';
+            setTimeout(() => {
+                this.style.display = 'none';
+            }, 300);
+        });
+    
+        let dialogueLines = [];
+        let charIndex = 0;
+        let currentText = '';
+        let hideTimeout = null; // ⬅️ para guardar el timeout y poder cancelarlo
+        let typingTimeout = null; // ⬅️ para cancelar si se está escribiendo
+    
+        fetch('dialogos/frases.txt')
+            .then(response => response.text())
+            .then(text => {
+                dialogueLines = text.split('\n').filter(line => line.trim() !== '');
+            })
+            .catch(error => {
+                console.error("Error cargando los diálogos:", error);
+                dialogueLines = ["¡Error al cargar los diálogos!"];
+            });
+    
+        function showCharacterDialogue() {
+            if (dialogueLines.length === 0) return;
+    
+            const dialogue = document.getElementById("character-dialogue");
+            const box = document.getElementById("dialogue-box");
+            const characterImg = document.getElementById("character-img");
+    
+            // ✂️ Cancelar cualquier timeout anterior
+            if (hideTimeout) clearTimeout(hideTimeout);
+            if (typingTimeout) clearTimeout(typingTimeout);
+    
+            // Elegir diálogo aleatorio
+            currentText = dialogueLines[Math.floor(Math.random() * dialogueLines.length)];
+            charIndex = 0;
+    
+            // Mostrar personaje
+            dialogue.classList.add("show");
+            characterImg.classList.add("fadeIn");
+    
+            // Resetear cuadro
+            box.textContent = '';
+    
+            // Iniciar escritura después de la animación
+            setTimeout(typeDialogue, 1000);
+        }
+    
+        function typeDialogue() {
+            const box = document.getElementById("dialogue-box");
+    
+            if (charIndex < currentText.length) {
+                box.textContent += currentText.charAt(charIndex);
+                charIndex++;
+                typingTimeout = setTimeout(typeDialogue, 70); // ⬅️ guardar referencia
+            } else {
+                // Esperar 3 segundos después de terminar el texto
+                hideTimeout = setTimeout(() => {
+                    const dialogue = document.getElementById("character-dialogue");
+                    dialogue.classList.remove("show");
+                }, 3000);
+            }
+        }
+    </script>
+    
+        
 </body>
 </html>
