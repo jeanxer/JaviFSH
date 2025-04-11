@@ -123,8 +123,9 @@ footer {
         opacity: 1;
     }
 }
+
 footer p {
-    color: #4d0cff; /* Celeste cielo */
+    color: #4d0cff;
 }
 
 @keyframes glitch {
@@ -199,4 +200,52 @@ footer p {
         text-shadow: 2px 2px 0 #8a2be2, -2px -2px 0 #00ffff;
         transform: translate(0, 0);
     }
+}
+
+/* personaje */
+#character-dialogue {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    display: flex;
+    align-items: flex-end;
+    gap: 15px;
+    z-index: 999;
+    opacity: 0;
+    transition: all 0.7s ease;
+}
+
+#character-dialogue.show {
+    opacity: 1;
+}
+
+#character-img {
+    width: 150px;
+    border-radius: 10px;
+    border: 3px solid white;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.6);
+    animation: fadeIn 1s ease forwards;
+}
+
+
+#dialogue-box {
+    max-width: 300px;
+    background: rgba(0, 0, 0, 0.7);
+    border: 2px solid #7FD8F2;
+    border-radius: 10px;
+    color: white;
+    padding: 15px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 16px;
+    white-space: pre-wrap;
+    animation: fadeIn 1s ease forwards;
+    order: -1;  
+    margin-right: 160px; 
+}
+
+
+#character-dialogue:not(.show) {
+    opacity: 0;
+    bottom: -300px;  
+    right: -300px;
 }
